@@ -49,7 +49,7 @@ export function CompletionMethodModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto bg-card">
+      <DialogContent className="sm:max-w-4xl w-full overflow-y-auto bg-card">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-card-foreground">
             Completion Method
@@ -157,7 +157,7 @@ export function CompletionMethodModal({
           </Button>
           <Button
             onClick={onConfirm}
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             Confirm Enrollment
           </Button>

@@ -17,6 +17,7 @@ interface CourseDetailModalProps {
   isOpen: boolean
   onClose: () => void
   onEnroll: () => void
+  onUnenroll?: () => void
 }
 
 export function CourseDetailModal({
@@ -24,6 +25,7 @@ export function CourseDetailModal({
   isOpen,
   onClose,
   onEnroll,
+  onUnenroll,
 }: CourseDetailModalProps) {
   if (!course) return null
 
@@ -118,11 +120,20 @@ export function CourseDetailModal({
               Enroll in Course
             </Button>
           )}
-          {course.enrollmentState === "enrolled" && (
-            <Button disabled className="bg-muted text-muted-foreground">
-              Already Enrolled
-            </Button>
-          )}
+          {course.enrollmentState === "enrolled" &&
+            (onUnenroll ? (
+              <Button
+                variant="outline"
+                onClick={() => onUnenroll?.()}
+                className="border-destructive text-destructive hover:bg-destructive/10"
+              >
+                Unenroll
+              </Button>
+            ) : (
+              <Button disabled className="bg-muted text-muted-foreground">
+                Already Enrolled
+              </Button>
+            ))}
           {course.enrollmentState === "pending" && (
             <Button disabled className="bg-muted text-muted-foreground">
               Enrollment Pending

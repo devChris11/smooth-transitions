@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -13,7 +13,14 @@ import {
 import { CourseCard } from "@/components/sisu/CourseCard"
 import { CourseDetailModal } from "@/components/sisu/CourseDetailModal"
 import { CompletionMethodModal } from "@/components/sisu/CompletionMethodModal"
-import { allCourses } from "@/lib/sisu/data"
+import {
+  fetchDegreeProgramme,
+  fetchStudent,
+  fetchCourses,
+  fetchEnrollments,
+  enrollInCourse,
+  unenrollFromCourse,
+} from "@/lib/sisu/queries"
 import type { CourseWithState, Course } from "@/lib/sisu/types"
 import type { EnrollmentState } from "@/components/sisu/EnrollmentStateBadge"
 
@@ -43,16 +50,53 @@ const courseTypes = [
 ]
 
 export default function SearchPage() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [studentId, setStudentId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("All")
   const [typeFilter, setTypeFilter] = useState("all")
-  const [courseStates, setCourseStates] = useState<CourseWithState[]>(() =>
-    initializeCourses(allCourses)
-  )
+  const [courseStates, setCourseStates] = useState<CourseWithState[]>([])
 
   const [selectedCourse, setSelectedCourse] = useState<CourseWithState | null>(null)
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false)
   const [isCompletionModalOpen, setIsCompletionModalOpen] = useState(false)
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const student = await fetchStudent()
+        if (!student) {
+          setError("Failed to load student")
+          return
+        }
+
+        const degree = await fetchDegreeProgramme()
+        if (!degree) {
+          setError("Failed to load degree programme")
+          return
+        }
+
+        const courses = await fetchCourses(degree.id)
+        const enrollments = await fetchEnrollments(student.id)
+        const enrolledCourseIds = new Set(enrollments.map((e) => e.courseId))
+
+        const coursesWithState: CourseWithState[] = initializeCourses(courses).map((course) =>
+          enrolledCourseIds.has(course.id)
+            ? { ...course, enrollmentState: "enrolled" as EnrollmentState }
+            : course
+        )
+
+        setCourseStates(coursesWithState)
+        setStudentId(student.id)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load data")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadData()
+  }, [])
 
   const filteredCourses = useMemo(() => {
     return courseStates.filter((course) => {
@@ -85,8 +129,18 @@ export default function SearchPage() {
     setIsCompletionModalOpen(true)
   }
 
-  const handleConfirmEnrollment = () => {
-    if (!selectedCourse) return
+  const handleConfirmEnrollment = async () => {
+    if (!selectedCourse || !studentId) return
+
+    const result = await enrollInCourse(
+      studentId,
+      selectedCourse.id,
+      selectedCourse.completionMethod
+    )
+    if (!result.success) {
+      console.error(result.error)
+      return
+    }
 
     setCourseStates((prev) =>
       prev.map((c) =>
@@ -108,9 +162,47 @@ export default function SearchPage() {
     setSelectedCourse(null)
   }
 
+  const handleUnenroll = async () => {
+    if (!selectedCourse || !studentId) return
+
+    const result = await unenrollFromCourse(studentId, selectedCourse.id)
+    if (!result.success) {
+      console.error(result.error)
+      return
+    }
+
+    setCourseStates((prev) =>
+      prev.map((c) =>
+        c.id === selectedCourse.id
+          ? { ...c, enrollmentState: "not_enrolled" as EnrollmentState }
+          : c
+      )
+    )
+
+    setSelectedCourse((prev) =>
+      prev ? { ...prev, enrollmentState: "not_enrolled" as EnrollmentState } : null
+    )
+  }
+
   const handleCloseCompletionModal = () => {
     setIsCompletionModalOpen(false)
     setIsDetailModalOpen(true)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <p className="text-muted-foreground">Loading courses...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <p className="text-destructive">{error}</p>
+      </div>
+    )
   }
 
   return (
@@ -195,6 +287,7 @@ export default function SearchPage() {
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
         onEnroll={handleEnrollClick}
+        onUnenroll={handleUnenroll}
       />
 
       {/* Completion Method Modal */}
