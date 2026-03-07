@@ -14,6 +14,17 @@ const staggerDelays = [0.1, 0.22, 0.34, 0.46, 0.54, 0.62]
 
 export default function LandingPage() {
   const [isHovered, setIsHovered] = useState(false)
+  const [isResetting, setIsResetting] = useState(false)
+
+  async function handleResetDemo() {
+    setIsResetting(true)
+    try {
+      await fetch("/api/reset-demo", { method: "POST" })
+    } finally {
+      setIsResetting(false)
+    }
+  }
+
   return (
     <main
       className="flex w-full overflow-hidden"
@@ -203,6 +214,36 @@ export default function LandingPage() {
             >
               Open DeOS
             </a>
+
+            {/* Button 3 - Reset Demo */}
+            <button
+              type="button"
+              disabled={isResetting}
+              onClick={handleResetDemo}
+              className="w-full text-center transition-all duration-200"
+              style={{
+                backgroundColor: "transparent",
+                border: "1px solid transparent",
+                color: "var(--muted-foreground)",
+                fontFamily: "var(--font-sans)",
+                fontSize: "14px",
+                fontWeight: 500,
+                padding: "12px 0",
+                borderRadius: "var(--rounded-md)",
+              }}
+              onMouseEnter={(e) => {
+                if (!isResetting) {
+                  e.currentTarget.style.color = "var(--foreground)"
+                  e.currentTarget.style.borderColor = "var(--border)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--muted-foreground)"
+                e.currentTarget.style.borderColor = "transparent"
+              }}
+            >
+              {isResetting ? "Resetting..." : "↺  Refresh Demo"}
+            </button>
           </motion.div>
         </div>
       </div>
