@@ -1,0 +1,313 @@
+import type { Course } from "@/lib/sisu/types"
+
+export const compulsoryCourses: Course[] = [
+  {
+    id: "1",
+    code: "BBA1001",
+    name: "Introduction to Business",
+    credits: 5,
+    category: "Business Fundamentals",
+    completionMethod: "assignments_and_exam",
+    description:
+      "This course provides a comprehensive introduction to the world of business, covering fundamental concepts, structures, and practices that form the foundation of modern commerce. Students will explore various business models, organizational structures, and the role of business in society.",
+    learningOutcomes:
+      "Upon completion, students will understand basic business terminology, organizational structures, and the key functions of business operations including marketing, finance, and management.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 30,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Introduction to Business Concepts", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Business Structures & Organization", type: "lecture", dayOffset: 5 },
+      { id: "l3", title: "Marketing Fundamentals", type: "lecture", dayOffset: 10 },
+      { id: "a1", title: "Business Model Canvas", description: "Create a business model canvas for a startup idea", type: "assignment", dayOffset: 15 },
+      { id: "a2", title: "Case Study Analysis", description: "Analyze a real-world business case", type: "assignment", dayOffset: 22 },
+      { id: "e1", title: "Final Examination", description: "Comprehensive exam covering all course material", type: "exam", dayOffset: 30 },
+    ],
+  },
+  {
+    id: "2",
+    code: "BBA1002",
+    name: "Financial Accounting",
+    credits: 8,
+    category: "Finance",
+    completionMethod: "exam_only",
+    description:
+      "An in-depth study of financial accounting principles and practices. This course covers the preparation and analysis of financial statements, accounting standards, and the role of accounting in business decision-making.",
+    learningOutcomes:
+      "Students will be able to prepare basic financial statements, understand accounting standards, and analyze financial data for business decisions.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 45,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Accounting Fundamentals", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "The Accounting Cycle", type: "lecture", dayOffset: 8 },
+      { id: "l3", title: "Financial Statements", type: "lecture", dayOffset: 15 },
+      { id: "l4", title: "Asset Valuation", type: "lecture", dayOffset: 22 },
+      { id: "l5", title: "Liabilities & Equity", type: "lecture", dayOffset: 29 },
+      { id: "e1", title: "Midterm Examination", description: "Covers fundamentals and accounting cycle", type: "exam", dayOffset: 25 },
+      { id: "e2", title: "Final Examination", description: "Comprehensive exam", type: "exam", dayOffset: 45 },
+    ],
+  },
+  {
+    id: "3",
+    code: "BBA1003",
+    name: "Marketing Fundamentals",
+    credits: 5,
+    category: "Marketing",
+    completionMethod: "assignments_only",
+    description:
+      "This course introduces students to the core concepts of marketing, including market research, consumer behavior, product development, and promotional strategies.",
+    learningOutcomes:
+      "Students will understand marketing concepts, be able to conduct basic market research, and develop simple marketing strategies.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 28,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Introduction to Marketing", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Consumer Behavior", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Marketing Mix", type: "lecture", dayOffset: 14 },
+      { id: "a1", title: "Market Research Project", description: "Conduct primary research on a target market", type: "assignment", dayOffset: 14 },
+      { id: "a2", title: "Marketing Plan", description: "Develop a comprehensive marketing plan", type: "assignment", dayOffset: 21 },
+      { id: "a3", title: "Campaign Presentation", description: "Present a marketing campaign proposal", type: "assignment", dayOffset: 28 },
+    ],
+  },
+  {
+    id: "4",
+    code: "BBA1004",
+    name: "Business Law",
+    credits: 3,
+    category: "Law",
+    completionMethod: "exam_only",
+    description:
+      "An overview of the legal environment affecting business operations, including contract law, corporate law, and regulatory compliance.",
+    learningOutcomes:
+      "Students will understand basic legal concepts affecting business, recognize legal risks, and understand contractual obligations.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 21,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Introduction to Business Law", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Contract Law", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Corporate Law", type: "lecture", dayOffset: 14 },
+      { id: "e1", title: "Final Examination", description: "Covers all legal topics", type: "exam", dayOffset: 21 },
+    ],
+  },
+  {
+    id: "5",
+    code: "BBA1005",
+    name: "Microeconomics",
+    credits: 6,
+    category: "Economics",
+    completionMethod: "assignments_and_exam",
+    description:
+      "This course examines the behavior of individual economic agents, including consumers and firms, and how they interact in markets.",
+    learningOutcomes:
+      "Students will understand supply and demand, market structures, and basic economic decision-making principles.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 35,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Introduction to Economics", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Supply and Demand", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Market Structures", type: "lecture", dayOffset: 14 },
+      { id: "l4", title: "Consumer Choice Theory", type: "lecture", dayOffset: 21 },
+      { id: "a1", title: "Market Analysis", description: "Analyze a real market using economic principles", type: "assignment", dayOffset: 20 },
+      { id: "a2", title: "Problem Set", description: "Solve economic problems", type: "assignment", dayOffset: 28 },
+      { id: "e1", title: "Final Examination", description: "Comprehensive microeconomics exam", type: "exam", dayOffset: 35 },
+    ],
+  },
+  {
+    id: "6",
+    code: "BBA1006",
+    name: "Organizational Behavior",
+    credits: 4,
+    category: "Management",
+    completionMethod: "assignments_only",
+    description:
+      "This course explores how individuals and groups behave within organizations, covering topics such as motivation, leadership, team dynamics, and organizational culture.",
+    learningOutcomes:
+      "Students will understand organizational dynamics, leadership styles, and strategies for effective team management.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 28,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Introduction to OB", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Motivation Theories", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Leadership", type: "lecture", dayOffset: 14 },
+      { id: "l4", title: "Team Dynamics", type: "lecture", dayOffset: 21 },
+      { id: "a1", title: "Leadership Style Analysis", description: "Analyze your leadership style", type: "assignment", dayOffset: 14 },
+      { id: "a2", title: "Team Project", description: "Group project on organizational culture", type: "assignment", dayOffset: 28 },
+    ],
+  },
+  {
+    id: "7",
+    code: "BBA1007",
+    name: "Business Statistics",
+    credits: 8,
+    category: "Analytics",
+    completionMethod: "assignments_and_exam",
+    description:
+      "A comprehensive introduction to statistical methods used in business decision-making, including descriptive statistics, probability, and inferential statistics.",
+    learningOutcomes:
+      "Students will be able to apply statistical methods to business problems, interpret statistical results, and make data-driven decisions.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 42,
+    courseType: "compulsory",
+    items: [
+      { id: "l1", title: "Descriptive Statistics", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Probability", type: "lecture", dayOffset: 8 },
+      { id: "l3", title: "Distributions", type: "lecture", dayOffset: 15 },
+      { id: "l4", title: "Hypothesis Testing", type: "lecture", dayOffset: 22 },
+      { id: "l5", title: "Regression Analysis", type: "lecture", dayOffset: 29 },
+      { id: "a1", title: "Data Analysis Project", description: "Analyze a business dataset", type: "assignment", dayOffset: 21 },
+      { id: "a2", title: "Statistical Report", description: "Write a statistical analysis report", type: "assignment", dayOffset: 35 },
+      { id: "e1", title: "Final Examination", description: "Comprehensive statistics exam", type: "exam", dayOffset: 42 },
+    ],
+  },
+]
+
+export const optionalCourses: Course[] = [
+  {
+    id: "8",
+    code: "BBA2001",
+    name: "Digital Marketing",
+    credits: 5,
+    category: "Marketing",
+    completionMethod: "assignments_only",
+    description:
+      "This course covers the latest digital marketing strategies and tools, including social media marketing, SEO, content marketing, and analytics.",
+    learningOutcomes:
+      "Students will understand digital marketing channels, be able to create digital campaigns, and analyze their effectiveness.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 28,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Digital Marketing Overview", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Social Media Marketing", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "SEO & Content", type: "lecture", dayOffset: 14 },
+      { id: "a1", title: "Social Media Campaign", description: "Design a social media campaign", type: "assignment", dayOffset: 14 },
+      { id: "a2", title: "SEO Analysis", description: "Conduct an SEO audit", type: "assignment", dayOffset: 21 },
+      { id: "a3", title: "Digital Strategy", description: "Create a comprehensive digital strategy", type: "assignment", dayOffset: 28 },
+    ],
+  },
+  {
+    id: "9",
+    code: "BBA2002",
+    name: "International Business",
+    credits: 6,
+    category: "Business Fundamentals",
+    completionMethod: "assignments_and_exam",
+    description:
+      "This course examines the challenges and opportunities of conducting business across national borders, including global trade, foreign investment, and cross-cultural management.",
+    learningOutcomes:
+      "Students will understand global business environments, international trade theories, and strategies for international expansion.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 35,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Globalization", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "International Trade", type: "lecture", dayOffset: 8 },
+      { id: "l3", title: "Foreign Direct Investment", type: "lecture", dayOffset: 15 },
+      { id: "l4", title: "Cross-Cultural Management", type: "lecture", dayOffset: 22 },
+      { id: "a1", title: "Country Analysis", description: "Analyze a country for market entry", type: "assignment", dayOffset: 20 },
+      { id: "a2", title: "Entry Strategy", description: "Develop an international entry strategy", type: "assignment", dayOffset: 28 },
+      { id: "e1", title: "Final Examination", description: "Comprehensive international business exam", type: "exam", dayOffset: 35 },
+    ],
+  },
+  {
+    id: "10",
+    code: "BBA2003",
+    name: "Entrepreneurship",
+    credits: 4,
+    category: "Business Fundamentals",
+    completionMethod: "assignments_only",
+    description:
+      "This course introduces students to the entrepreneurial mindset and process, covering ideation, business planning, funding, and launching a new venture.",
+    learningOutcomes:
+      "Students will understand the entrepreneurial process, be able to develop a business plan, and understand funding options.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 28,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Entrepreneurial Mindset", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Opportunity Recognition", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Business Planning", type: "lecture", dayOffset: 14 },
+      { id: "l4", title: "Funding & Launch", type: "lecture", dayOffset: 21 },
+      { id: "a1", title: "Pitch Deck", description: "Create a startup pitch deck", type: "assignment", dayOffset: 14 },
+      { id: "a2", title: "Business Plan", description: "Write a complete business plan", type: "assignment", dayOffset: 28 },
+    ],
+  },
+  {
+    id: "11",
+    code: "BBA2004",
+    name: "Corporate Finance",
+    credits: 8,
+    category: "Finance",
+    completionMethod: "exam_only",
+    description:
+      "This advanced course covers corporate financial decision-making, including capital budgeting, cost of capital, capital structure, and dividend policy.",
+    learningOutcomes:
+      "Students will understand corporate financial decisions, capital structure theories, and valuation methods.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 45,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Time Value of Money", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Capital Budgeting", type: "lecture", dayOffset: 8 },
+      { id: "l3", title: "Cost of Capital", type: "lecture", dayOffset: 15 },
+      { id: "l4", title: "Capital Structure", type: "lecture", dayOffset: 22 },
+      { id: "l5", title: "Dividend Policy", type: "lecture", dayOffset: 29 },
+      { id: "l6", title: "Valuation", type: "lecture", dayOffset: 36 },
+      { id: "e1", title: "Midterm Examination", description: "Covers capital budgeting and cost of capital", type: "exam", dayOffset: 25 },
+      { id: "e2", title: "Final Examination", description: "Comprehensive corporate finance exam", type: "exam", dayOffset: 45 },
+    ],
+  },
+  {
+    id: "12",
+    code: "BBA2005",
+    name: "Supply Chain Management",
+    credits: 5,
+    category: "Management",
+    completionMethod: "assignments_and_exam",
+    description:
+      "This course covers the design, planning, and management of supply chains, including procurement, logistics, and inventory management.",
+    learningOutcomes:
+      "Students will understand supply chain concepts, logistics optimization, and inventory management strategies.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 35,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Supply Chain Fundamentals", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Procurement", type: "lecture", dayOffset: 8 },
+      { id: "l3", title: "Logistics", type: "lecture", dayOffset: 15 },
+      { id: "l4", title: "Inventory Management", type: "lecture", dayOffset: 22 },
+      { id: "a1", title: "Supply Chain Analysis", description: "Analyze a company's supply chain", type: "assignment", dayOffset: 20 },
+      { id: "a2", title: "Optimization Project", description: "Propose supply chain improvements", type: "assignment", dayOffset: 28 },
+      { id: "e1", title: "Final Examination", description: "Comprehensive supply chain exam", type: "exam", dayOffset: 35 },
+    ],
+  },
+  {
+    id: "13",
+    code: "BBA2006",
+    name: "Business Ethics",
+    credits: 3,
+    category: "Management",
+    completionMethod: "assignments_only",
+    description:
+      "This course examines ethical issues in business, including corporate social responsibility, stakeholder management, and ethical decision-making frameworks.",
+    learningOutcomes:
+      "Students will understand ethical frameworks, CSR principles, and be able to analyze ethical dilemmas in business contexts.",
+    teachingPeriodStart: 1,
+    teachingPeriodEnd: 21,
+    courseType: "optional",
+    items: [
+      { id: "l1", title: "Ethics Foundations", type: "lecture", dayOffset: 1 },
+      { id: "l2", title: "Corporate Responsibility", type: "lecture", dayOffset: 7 },
+      { id: "l3", title: "Stakeholder Management", type: "lecture", dayOffset: 14 },
+      { id: "a1", title: "Ethics Case Study", description: "Analyze an ethical dilemma case", type: "assignment", dayOffset: 14 },
+      { id: "a2", title: "CSR Report", description: "Evaluate a company's CSR initiatives", type: "assignment", dayOffset: 21 },
+    ],
+  },
+]
+
+export const allCourses: Course[] = [...compulsoryCourses, ...optionalCourses]
