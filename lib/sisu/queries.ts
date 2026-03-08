@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client"
+import { inngest } from "@/lib/inngest/client"
 import type { Course, CourseItem, CompletionMethod, CourseType } from "@/lib/sisu/types"
 
 export async function fetchDegreeProgramme(): Promise<{
@@ -180,6 +181,19 @@ export async function enrollInCourse(
 
   if (error) {
     return { success: false, error: error.message }
+  }
+
+  try {
+    await inngest.send({
+      name: "enrollment/created",
+      data: {
+        studentId,
+        courseId,
+        enrolledAt: new Date().toISOString(),
+      },
+    })
+  } catch (err) {
+    console.error("Inngest event error:", err)
   }
 
   return { success: true }
