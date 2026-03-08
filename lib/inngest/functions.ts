@@ -8,6 +8,7 @@ type EnrollmentEventData = {
 };
 
 type FetchContextResult = {
+  enrolledAt: string;
   student: { id: string; name: string; student_number: string };
   course: {
     id: string;
@@ -69,6 +70,7 @@ export const processEnrollment = inngest.createFunction(
         }
 
         return {
+          enrolledAt: (event.data as EnrollmentEventData).enrolledAt,
           student: {
             id: studentData.id,
             name: studentData.name,
@@ -94,8 +96,16 @@ export const processEnrollment = inngest.createFunction(
       });
 
       const brief = await step.run("generate-context", async (): Promise<string> => {
+        const enrollmentDate = new Date(context.enrolledAt);
+        const formatDate = (d: Date) =>
+          `${d.toLocaleDateString("en-GB", { weekday: "short" })} ${d.getDate()} ${d.toLocaleDateString("en-GB", { month: "short" })}`;
+
         const itemsText = context.items
-          .map((i) => `- [${i.item_type}] ${i.title} (Day ${i.day_offset})`)
+          .map((i) => {
+            const itemDate = new Date(enrollmentDate);
+            itemDate.setDate(itemDate.getDate() + i.day_offset);
+            return `- [${i.item_type}] ${i.title} (${formatDate(itemDate)})`;
+          })
           .join("\n");
 
         const prompt = `You are an academic context assistant for DegreeOS. A student has just enrolled in a new course. Prepare a concise onboarding brief for them.
@@ -106,6 +116,7 @@ Credits: ${context.course.credits ?? "N/A"}
 Category: ${context.course.category ?? "N/A"}
 Completion method: ${context.course.completion_method ?? "N/A"}
 Description: ${context.course.description ?? "N/A"}
+Enrollment date: ${formatDate(enrollmentDate)}
 
 Course items:
 ${itemsText}
@@ -113,7 +124,7 @@ ${itemsText}
 Write a 2-3 sentence onboarding brief that tells the student:
 1. What this course is fundamentally about
 2. What their first concrete action should be
-3. The most important deadline to be aware of
+3. The most important deadline to be aware of, expressed as an actual date
 
 Be direct and specific. No filler. Write in second person addressing the student directly.`;
 
