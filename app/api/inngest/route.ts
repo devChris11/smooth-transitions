@@ -7,4 +7,4 @@ const handler = serve({
   functions: [processEnrollment],
 });
 
-export const { GET, POST } = handler;
+export const { GET, POST, PUT } = handler;
