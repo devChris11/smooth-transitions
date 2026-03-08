@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/client"
+import { createServiceClient } from "@/lib/supabase/service"
 import { NextResponse } from "next/server"
 
 export async function POST() {
   try {
-    const supabase = createClient()
+    const supabase = createServiceClient()
 
     const { data: student, error: studentError } = await supabase
       .from("students")
@@ -26,6 +26,18 @@ export async function POST() {
     if (deleteError) {
       return NextResponse.json(
         { success: false, error: deleteError.message },
+        { status: 500 }
+      )
+    }
+
+    const { error: contextDeleteError } = await supabase
+      .from("student_contexts")
+      .delete()
+      .eq("student_id", student.id)
+
+    if (contextDeleteError) {
+      return NextResponse.json(
+        { success: false, error: contextDeleteError.message },
         { status: 500 }
       )
     }
