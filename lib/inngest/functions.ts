@@ -132,7 +132,8 @@ Be direct and specific. No filler. Write in second person addressing the student
         });
 
         if (!response.ok) {
-          throw new Error(`Anthropic API error: ${response.status} ${response.statusText}`);
+          const errorBody = await response.text();
+          throw new Error(`Anthropic API error: ${response.status} ${response.statusText} — ${errorBody}`);
         }
 
         const data = (await response.json()) as {
