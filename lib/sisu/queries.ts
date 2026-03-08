@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/client"
-import { inngest } from "@/lib/inngest/client"
 import type { Course, CourseItem, CompletionMethod, CourseType } from "@/lib/sisu/types"
 
 export async function fetchDegreeProgramme(): Promise<{
@@ -184,16 +183,17 @@ export async function enrollInCourse(
   }
 
   try {
-    await inngest.send({
-      name: "enrollment/created",
-      data: {
+    await fetch("/api/enroll-trigger", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         studentId,
         courseId,
         enrolledAt: new Date().toISOString(),
-      },
+      }),
     })
   } catch (err) {
-    console.error("Inngest event error:", err)
+    console.error("Enroll trigger error:", err)
   }
 
   return { success: true }
