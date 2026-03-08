@@ -32,7 +32,22 @@ export default function DeosPage() {
       setContexts([]);
     } else {
       setError(null);
-      setContexts((data ?? []) as StudentContextRow[]);
+      const rows = (data ?? []) as Array<{
+        id: string;
+        context_brief: string;
+        generated_at: string;
+        student_id: string;
+        course_id: string;
+        courses: { name: string; course_code: string } | { name: string; course_code: string }[] | null;
+        students: { name: string } | { name: string }[] | null;
+      }>;
+      setContexts(
+        rows.map((r) => ({
+          ...r,
+          courses: Array.isArray(r.courses) ? r.courses[0] ?? null : r.courses,
+          students: Array.isArray(r.students) ? r.students[0] ?? null : r.students,
+        }))
+      );
     }
     setLoading(false);
   };
