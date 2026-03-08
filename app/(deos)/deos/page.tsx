@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 
 type StudentContextRow = {
   id: string;
@@ -17,14 +19,13 @@ export default function DeosPage() {
   const [contexts, setContexts] = useState<StudentContextRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchContexts = async () => {
     const supabase = createClient();
-    const { data, error: fetchError } = await supabase
+    const { data: contextData, error: fetchError } = await supabase
       .from("student_contexts")
-      .select(
-        "id, context_brief, generated_at, course_id, student_id, courses(name, course_code), students(name)"
-      )
+      .select("id, context_brief, generated_at, course_id, student_id")
       .order("generated_at", { ascending: false });
 
     if (fetchError) {
@@ -32,22 +33,45 @@ export default function DeosPage() {
       setContexts([]);
     } else {
       setError(null);
-      const rows = (data ?? []) as Array<{
+      const rows = (contextData ?? []) as Array<{
         id: string;
         context_brief: string;
         generated_at: string;
         student_id: string;
         course_id: string;
-        courses: { name: string; course_code: string } | { name: string; course_code: string }[] | null;
-        students: { name: string } | { name: string }[] | null;
       }>;
-      setContexts(
-        rows.map((r) => ({
-          ...r,
-          courses: Array.isArray(r.courses) ? r.courses[0] ?? null : r.courses,
-          students: Array.isArray(r.students) ? r.students[0] ?? null : r.students,
-        }))
-      );
+
+      if (rows.length === 0) {
+        setContexts([]);
+      } else {
+        const courseIds = [...new Set(rows.map((r) => r.course_id))];
+        const studentIds = [...new Set(rows.map((r) => r.student_id))];
+
+        const { data: coursesData } = await supabase
+          .from("courses")
+          .select("id, name, course_code")
+          .in("id", courseIds);
+
+        const { data: studentsData } = await supabase
+          .from("students")
+          .select("id, name")
+          .in("id", studentIds);
+
+        const coursesMap = new Map(
+          (coursesData ?? []).map((c) => [c.id, { name: c.name, course_code: c.course_code }])
+        );
+        const studentsMap = new Map(
+          (studentsData ?? []).map((s) => [s.id, { name: s.name }])
+        );
+
+        setContexts(
+          rows.map((r) => ({
+            ...r,
+            courses: coursesMap.get(r.course_id) ?? null,
+            students: studentsMap.get(r.student_id) ?? null,
+          }))
+        );
+      }
     }
     setLoading(false);
   };
@@ -90,10 +114,33 @@ export default function DeosPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="mb-2 text-2xl font-bold">DegreeOS — Agent Output</h1>
-      <p className="mb-8 text-muted-foreground">
-        Raw agent context briefs for testing
-      </p>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="mb-2 text-2xl font-bold">DegreeOS — Agent Output</h1>
+          <p className="text-muted-foreground">
+            Raw agent context briefs for testing
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={async () => {
+            setRefreshing(true);
+            await fetchContexts();
+            setRefreshing(false);
+          }}
+          disabled={refreshing}
+        >
+          {refreshing ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Refresh
+            </>
+          ) : (
+            "Refresh"
+          )}
+        </Button>
+      </div>
 
       {contexts.length === 0 ? (
         <p className="text-center text-muted-foreground">
