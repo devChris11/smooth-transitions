@@ -1,7 +1,11 @@
 export default function LandingLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  return <>{children}</>;
+  return (
+    <div className="dark" style={{ height: "100dvh" }}>
+      {children}
+    </div>
+  )
 }
